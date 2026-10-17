@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Physics Way Labs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Augmented-reality physics experiments by Mr. Islam Samir — Physics Way.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: night-lab hero with a live magnetic field, then a chapter-filtered bench of lab cards, then a 3-step "how to use" strip. */
+:root{
+  --bg:#060a19; --bg-2:#0b1128; --panel:rgba(14,21,48,.86); --line:#1d2a55; --line-2:#2a3a72;
+  --fg:#e9eeff; --muted:#98a5cc; --dim:#6b78a3;
+  --gold:#ffc83d; --blue:#1e5eff; --blue-2:#5b8cff;
+  --field:#2ec5ff; --current:#ff4d3d; --force:#22e07a;
+  --display:"Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r:14px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(6,10,25,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:34px;height:34px;flex:none}
+.brand b{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.02em}
+.brand b span{color:var(--gold)}
+.brand small{display:block;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;line-height:1.1}
+.bar nav{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{color:var(--fg)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+#field{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 0%,rgba(6,10,25,.86) 38%,rgba(6,10,25,.15) 70%,rgba(6,10,25,0) 100%)}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:32px;align-items:center;padding-block:64px 56px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--field);display:flex;align-items:center;gap:10px}
+.eyebrow i{width:28px;height:1px;background:var(--field);display:inline-block}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7.4vw,88px);line-height:.95;letter-spacing:-.01em;margin:18px 0 18px;text-wrap:balance}
+h1 .w{color:var(--gold);display:block}
+.lede{font-size:clamp(16px,1.6vw,19px);color:#c6cff0;max-width:34em;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.03em;text-decoration:none;border-radius:999px;padding:12px 20px;border:1px solid var(--line-2);background:transparent;color:var(--fg);cursor:pointer;transition:transform .15s,background .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px);border-color:var(--blue-2)}
+.btn.primary{background:var(--gold);color:#1a1300;border-color:var(--gold)}
+.btn.primary:hover{background:#ffd45f}
+.readout{display:flex;flex-wrap:wrap;gap:28px;margin-top:38px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.readout b{display:block;font-family:var(--display);font-size:30px;color:var(--fg);font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.teacher{justify-self:center;text-align:center;position:relative}
+.teacher img{width:min(280px,100%);height:auto;display:block;margin:0 auto;filter:drop-shadow(0 18px 40px rgba(30,94,255,.35))}
+.teacher .tag{margin-top:10px;display:inline-block;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:10px 16px;text-align:left}
+.teacher .tag b{font-family:var(--display);font-size:17px;display:block}
+.teacher .tag span{font-size:13px;color:var(--muted)}
+
+/* ---------- section heads ---------- */
+section{padding-block:64px}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px;margin-bottom:28px}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,3.6vw,40px);line-height:1.05;margin:8px 0 0;text-wrap:balance}
+.head p{color:var(--muted);margin:8px 0 0;max-width:36em}
+
+/* ---------- filter ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--body);font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip .n{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip[aria-pressed="true"] .n{color:#4a5680}
+.search{flex:1 1 220px;max-width:320px;position:relative}
+.search input{width:100%;font:inherit;font-size:14px;color:var(--fg);background:var(--bg-2);border:1px solid var(--line-2);border-radius:999px;padding:9px 14px 9px 38px}
+.search input::placeholder{color:var(--dim)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--dim)}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:26px}
+
+/* ---------- chapters & cards ---------- */
+.chapter{margin-top:40px}
+.chapter:first-child{margin-top:0}
+.ch-title{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;border-bottom:1px dashed var(--line-2);padding-bottom:10px}
+.ch-title h3{font-family:var(--display);font-size:21px;margin:0;font-weight:600}
+.ch-title span{font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{position:relative;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.plate{position:relative;height:150px;background:radial-gradient(120% 90% at 50% 100%,#13204d 0%,#0a1027 70%);
+  border-bottom:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.plate::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(46,197,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(46,197,255,.06) 1px,transparent 1px);background-size:18px 18px}
+.plate svg{position:relative;width:100%;height:100%}
+.status{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:rgba(34,224,122,.12);color:var(--force);border:1px solid rgba(34,224,122,.35);display:flex;align-items:center;gap:6px}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.card.soon .status{background:rgba(255,200,61,.1);color:var(--gold);border-color:rgba(255,200,61,.35)}
+.card.soon .plate svg{opacity:.45}
+.body{padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;flex:1;min-width:0}
+.body h4{font-family:var(--display);font-size:19px;font-weight:600;margin:0;line-height:1.2}
+.law{font-family:var(--mono);font-size:13.5px;color:var(--gold);background:rgba(255,200,61,.07);border:1px solid rgba(255,200,61,.18);border-radius:8px;padding:6px 10px;align-self:flex-start;max-width:100%;overflow-x:auto;white-space:nowrap}
+.body p{margin:0;color:var(--muted);font-size:14.5px}
+.actions{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.actions a,.actions button{flex:1;justify-content:center;font-size:14px;padding:9px 12px}
+.actions .open{background:var(--blue);border-color:var(--blue);color:#fff}
+.actions .open:hover{background:#3a72ff}
+.card.soon .actions .open{background:transparent;border-color:var(--line-2);color:var(--dim);pointer-events:none}
+.empty{color:var(--muted);padding:30px 0;text-align:center;border:1px dashed var(--line-2);border-radius:var(--r)}
+
+/* ---------- how ---------- */
+.how{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;min-width:0}
+.step .k{font-family:var(--mono);font-size:12px;color:var(--field);letter-spacing:.12em}
+.step h4{font-family:var(--display);font-size:19px;margin:6px 0 6px}
+.step p{margin:0;color:var(--muted);font-size:14.5px}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.mode{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.mode svg{width:34px;height:34px;flex:none;color:var(--gold)}
+.mode b{font-family:var(--display);font-size:16px}
+.mode p{margin:4px 0 0;color:var(--muted);font-size:14px}
+
+/* ---------- footer ---------- */
+footer{padding-block:36px;color:var(--dim);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+footer b{color:var(--muted);font-weight:500}
+
+/* ---------- QR dialog ---------- */
+.scrim{position:fixed;inset:0;z-index:50;background:rgba(3,6,16,.72);backdrop-filter:blur(6px);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-left,0px))}
+.qrbox{width:min(380px,100%);background:var(--bg-2);border:1px solid var(--line-2);border-radius:18px;padding:22px;text-align:center;position:relative}
+.qrbox h4{font-family:var(--display);font-size:20px;margin:0 0 4px}
+.qrbox .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px}
+.qrframe{background:#fff;border-radius:14px;padding:14px;display:inline-block;border:3px solid var(--gold)}
+#qr{width:220px;height:220px;max-width:100%}
+#qr img,#qr canvas{width:100%!important;height:auto!important;display:block}
+.url{margin-top:14px;display:flex;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 12px}
+.url code{flex:1;min-width:0;font-family:var(--mono);font-size:12px;color:var(--blue-2);overflow-x:auto;white-space:nowrap;text-align:left;user-select:all}
+.url button{font-size:13px;padding:7px 12px}
+.close{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
+.qrbox .hint{font-size:12.5px;color:var(--dim);margin:12px 0 0}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;padding-block:44px 40px}
+  .hero::after{background:linear-gradient(180deg,rgba(6,10,25,.55) 0%,rgba(6,10,25,.9) 60%,var(--bg) 100%)}
+  .teacher{justify-self:start;display:flex;align-items:center;gap:14px;text-align:left}
+  .teacher img{width:96px;margin:0}
+  .teacher .tag{margin:0}
+  .steps,.modes{grid-template-columns:1fr}
+  .bar nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Physics Way Labs home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <ellipse cx="32" cy="32" rx="27" ry="10" fill="none" stroke="#ffc83d" stroke-width="3" transform="rotate(-30 32 32)"/>
+        <ellipse cx="32" cy="32" rx="27" ry="10" fill="none" stroke="#ffc83d" stroke-width="3" transform="rotate(30 32 32)"/>
+        <circle cx="32" cy="32" r="7.5" fill="#1e5eff"/>
+        <circle cx="54" cy="22" r="3.6" fill="#2ec5ff"/>
+      </svg>
+      <span><b>Physics <span>Way</span> Labs</b><small>Mr. Islam Samir</small></span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#labs">Labs</a>
+      <a href="#how">How to use</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div>
+        <div class="eyebrow"><i></i>Augmented-reality physics</div>
+        <h1>Physics Way <span class="w">Labs</span></h1>
+        <p class="lede">Put the experiment on your desk. Scan the QR in your book, aim the camera at the page, and watch magnetic fields, currents and forces come alive in 3D. Change the current, flip the field, and see the physics respond.</p>
+        <div class="cta">
+          <a class="btn primary" href="#labs">Explore the labs
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn" href="#how">How it works</a>
+        </div>
+        <div class="readout">
+          <div><b id="countLive">9</b>labs live</div>
+          <div><b>2</b>AR modes</div>
+          <div><b>0</b>apps to install</div>
+        </div>
+      </div>
+      <div class="teacher">
+        <img src="data:image/webp;base64,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" alt="Mr. Islam Samir" width="280" height="326">
+        <div class="tag"><b>Mr. Islam Samir</b><span>Physics Way · Secondary physics</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="labs">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="eyebrow"><i></i>The lab bench</div>
+          <h2>Choose an experiment</h2>
+          <p>Every lab opens in your phone's browser. Works on Android and iPhone, with full controls and sound.</p>
+        </div>
+      </div>
+      <div class="tools">
+        <div class="filters" role="group" aria-label="Filter by chapter" id="filters"></div>
+        <label class="search" for="q">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="Search: solenoid, force, ohm…" aria-label="Search labs">
+        </label>
+      </div>
+      <div id="bench"></div>
+    </div>
+  </section>
+
+  <section id="how" class="how">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="eyebrow"><i></i>Three steps</div>
+          <h2>From the page to your desk</h2>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="k">STEP 1</div><h4>Scan the QR</h4><p>Open your phone camera and scan the QR code printed in Mr. Islam's book, or tap a lab above.</p></div>
+        <div class="step"><div class="k">STEP 2</div><h4>Aim at the page</h4><p>Tap <b>Show on your table</b> and point the camera at the printed poster. The lab locks onto the paper.</p></div>
+        <div class="step"><div class="k">STEP 3</div><h4>Run the experiment</h4><p>Press <b>Next</b> to follow Mr. Islam step by step, or move the sliders to change current, field and angle.</p></div>
+      </div>
+      <div class="modes">
+        <div class="mode">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="18" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="5" y="18" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 18h4v4h-4zM24 24h3v3h-3zM24 18h3M18 26h3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          <div><b>Show on your table</b><p>Locks the lab onto the printed poster. Same experience on every phone.</p></div>
+        </div>
+        <div class="mode">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="22" rx="11" ry="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 4v14M11 13l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><b>Place anywhere</b><p>Drop the model on any surface around you. iPhone opens it in AR Quick Look.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Physics Way Labs</b> · Interactive AR experiments for Mr. Islam Samir's students</span>
+    <span>© <span id="yr">2026</span> Physics Way</span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="qrbox" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+    <button class="close" id="qrClose" aria-label="Close">×</button>
+    <h4 id="qrTitle">Lab</h4>
+    <p class="sub">Scan with your phone camera to open this lab.</p>
+    <div class="qrframe"><div id="qr"></div></div>
+    <div class="url"><code id="qrUrl"></code><button class="btn" id="copyBtn" type="button">Copy</button></div>
+    <p class="hint">Tip: show this on the board so the whole class can scan it.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(() => {
+const BASE = "https://physicsway123-coder.github.io/physicsway-ch2/";
+
+/* ---- tiny SVG plates, one per topic (brand physics colors: B cyan, I red, F green) ---- */
+const P = {
+  force: `<svg viewBox="0 0 260 150"><g stroke="#2ec5ff" stroke-width="1.6" opacity=".8">${[30,55,80,105,130].map(y=>`<path d="M30 ${y}H230" marker-end="url(#ab)"/>`).join("")}</g>
+    <rect x="122" y="18" width="16" height="114" rx="3" fill="#c8913a"/><path d="M130 120V40" stroke="#ff4d3d" stroke-width="4" marker-end="url(#ai)"/>
+    <path d="M140 75h58" stroke="#22e07a" stroke-width="5" marker-end="url(#af)"/>
+    <defs>${mk("ab","#2ec5ff")}${mk("ai","#ff4d3d")}${mk("af","#22e07a")}</defs></svg>`,
+  wire: `<svg viewBox="0 0 260 150"><g fill="none" stroke="#2ec5ff" stroke-width="1.6">${[16,32,50,70].map((r,i)=>`<circle cx="130" cy="75" r="${r}" opacity="${1-i*.2}"/>`).join("")}</g>
+    <circle cx="130" cy="75" r="7" fill="#ff4d3d"/><circle cx="130" cy="75" r="2.4" fill="#fff"/>
+    <path d="M200 75a70 70 0 0 1-4 22" stroke="#2ec5ff" stroke-width="2.2" fill="none" marker-end="url(#aw)"/><defs>${mk("aw","#2ec5ff")}</defs></svg>`,
+  two: `<svg viewBox="0 0 260 150"><g fill="none" stroke="#2ec5ff" stroke-width="1.4" opacity=".75">${[14,28,44].map(r=>`<circle cx="90" cy="75" r="${r}"/><circle cx="170" cy="75" r="${r}"/>`).join("")}</g>
+    <circle cx="90" cy="75" r="7" fill="#ff4d3d"/><circle cx="170" cy="75" r="7" fill="#ff4d3d"/>
+    <path d="M100 75h22" stroke="#22e07a" stroke-width="4" marker-end="url(#a2)"/><path d="M160 75h-22" stroke="#22e07a" stroke-width="4" marker-end="url(#a2)"/><defs>${mk("a2","#22e07a")}</defs></svg>`,
+  coil: `<svg viewBox="0 0 260 150"><ellipse cx="130" cy="75" rx="22" ry="52" fill="none" stroke="#c8913a" stroke-width="7"/>
+    <g fill="none" stroke="#2ec5ff" stroke-width="1.5" opacity=".85"><path d="M40 75H220" marker-end="url(#ac)"/><path d="M50 50C100 20 160 20 210 50"/><path d="M50 100C100 130 160 130 210 100"/><path d="M60 62C100 45 160 45 200 62"/><path d="M60 88C100 105 160 105 200 88"/></g>
+    <defs>${mk("ac","#2ec5ff")}</defs></svg>`,
+  sol: `<svg viewBox="0 0 260 150"><g fill="none" stroke="#c8913a" stroke-width="5">${[70,88,106,124,142,160,178].map(x=>`<ellipse cx="${x}" cy="75" rx="8" ry="34"/>`).join("")}</g>
+    <g stroke="#2ec5ff" stroke-width="1.6"><path d="M50 66H215" marker-end="url(#as)"/><path d="M50 84H215" marker-end="url(#as)"/></g>
+    <path d="M55 40C20 40 20 110 55 110M205 40c35 0 35 70 0 70" fill="none" stroke="#2ec5ff" stroke-width="1.4" opacity=".6"/><defs>${mk("as","#2ec5ff")}</defs></svg>`,
+  kirch: `<svg viewBox="0 0 260 150"><g fill="none" stroke="#98a5cc" stroke-width="3"><rect x="40" y="25" width="180" height="100" rx="4"/><path d="M130 25v100"/></g>
+    <g fill="#060a19" stroke="#ffc83d" stroke-width="2.5"><rect x="70" y="18" width="30" height="14" rx="2"/><rect x="160" y="18" width="30" height="14" rx="2"/><rect x="123" y="60" width="14" height="30" rx="2"/></g>
+    <path d="M33 62v26M47 68v14" stroke="#e9eeff" stroke-width="3"/><g fill="#ff4d3d">${[[60,125],[100,125],[150,125],[200,125],[220,90],[130,110]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4"/>`).join("")}</g></svg>`,
+  meter: (needle, label, accent) => `<svg viewBox="0 0 260 150"><path d="M60 120A70 70 0 0 1 200 120" fill="none" stroke="#2a3a72" stroke-width="14" stroke-linecap="round"/>
+    <path d="M60 120A70 70 0 0 1 200 120" fill="none" stroke="${accent}" stroke-width="2" stroke-dasharray="2 9"/>
+    <line x1="130" y1="120" x2="${130+62*Math.cos(needle)}" y2="${120-62*Math.sin(needle)}" stroke="#ff4d3d" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="130" cy="120" r="7" fill="#e9eeff"/><text x="130" y="96" text-anchor="middle" font-family="Chakra Petch, sans-serif" font-size="26" font-weight="700" fill="${accent}">${label}</text></svg>`,
+  flux: `<svg viewBox="0 0 260 150"><path d="M85 40l90 0 -10 70 -90 0z" fill="rgba(255,200,61,.12)" stroke="#ffc83d" stroke-width="2"/>
+    <g stroke="#2ec5ff" stroke-width="1.6">${[95,115,135,155].map(x=>`<path d="M${x} 20V130" marker-end="url(#ax)"/>`).join("")}</g><defs>${mk("ax","#2ec5ff")}</defs></svg>`,
+  torque: `<svg viewBox="0 0 260 150"><rect x="90" y="35" width="80" height="80" fill="none" stroke="#c8913a" stroke-width="5" transform="skewY(-8) translate(0 18)"/>
+    <path d="M130 20v110" stroke="#98a5cc" stroke-dasharray="4 4"/><path d="M100 22a40 12 0 1 0 60 0" fill="none" stroke="#22e07a" stroke-width="3" marker-end="url(#at)"/>
+    <g stroke="#2ec5ff" stroke-width="1.4" opacity=".7"><path d="M30 75H70" marker-end="url(#ab2)"/><path d="M190 75H230" marker-end="url(#ab2)"/></g><defs>${mk("at","#22e07a")}${mk("ab2","#2ec5ff")}</defs></svg>`
+};
+function mk(id, c){return `<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker>`}
+
+const CH = {
+  mag: {name:"Magnetic field of electric current", short:"Magnetism"},
+  circ:{name:"Electric circuits", short:"Circuits"},
+  dev: {name:"Measuring devices", short:"Meters"}
+};
+
+const LABS = [
+  {id:"magnetic-force", ch:"mag", title:"Force on a current-carrying wire", law:"F = B·I·L·sinθ", plate:P.force,
+   text:"Fleming's left-hand rule in 3D. Change the current, flip the field and tilt the wire to see the force grow, shrink and reverse."},
+  {id:"straight-wire-field", ch:"mag", title:"Field of a straight wire", law:"B = μ₀I / 2πd", plate:P.wire,
+   text:"Circular field lines around a straight wire. Use the right-hand grip rule and watch B fall off with distance."},
+  {id:"two-wires", ch:"mag", title:"Two parallel wires", law:"F/L = μ₀I₁I₂ / 2πd", plate:P.two,
+   text:"Same direction currents attract, opposite currents repel. Move the wires closer and watch the force climb."},
+  {id:"circular-coil", ch:"mag", title:"Field of a circular coil", law:"B = μ₀NI / 2r", plate:P.coil,
+   text:"See how a loop concentrates the field at its centre. Add turns, raise the current, shrink the radius."},
+  {id:"solenoid", ch:"mag", title:"The solenoid", law:"B = μ₀NI / L", plate:P.sol,
+   text:"Straight, uniform field lines inside and a bar-magnet pattern outside. Find the north pole with the right-hand rule."},
+  {id:"magnetic-flux", ch:"mag", title:"Magnetic flux", law:"Φ = B·A·cosθ", plate:P.flux,
+   text:"Rotate a loop inside a field and count the lines that pass through it."},
+  {id:"magnetic-torque", ch:"mag", title:"Torque on a coil", law:"τ = B·I·A·N·sinθ", plate:P.torque,
+   text:"Why a coil turns in a magnetic field: the heart of the electric motor."},
+  {id:"kirchhoff", ch:"circ", title:"Kirchhoff's laws", law:"ΣI = 0   ·   ΣV = 0", plate:P.kirch,
+   text:"Follow the charges round a two-loop circuit. Currents split at the junction and voltages add up round every loop."},
+  {id:"ammeter", ch:"dev", title:"Galvanometer → Ammeter", law:"Rₛ = I_g·R_g / (I − I_g)", plate:P.meter(1.05,"A","#2ec5ff"),
+   text:"Add a small shunt in parallel so the big current bypasses the coil. Change the range and see the overload."},
+  {id:"voltmeter", ch:"dev", title:"Galvanometer → Voltmeter", law:"R_m = V / I_g − R_g", plate:P.meter(1.75,"V","#22e07a"),
+   text:"Add a large multiplier in series and connect it across the lamp. Pick the range that keeps the pointer on scale."},
+  {id:"ohmmeter", ch:"dev", title:"Galvanometer → Ohmmeter", law:"I = V_B / (R_total + Rₓ)", plate:P.meter(2.4,"Ω","#ffc83d"),
+   text:"A battery, a variable resistor and a reversed scale. Zero the meter, then measure an unknown resistance."}
+];
+
+const bench = document.getElementById("bench");
+const filters = document.getElementById("filters");
+const q = document.getElementById("q");
+let current = "all";
+try { const s = localStorage.getItem("pwl-filter"); if (s && (s==="all"||CH[s])) current = s; } catch(e){}
+
+document.getElementById("countLive").textContent = LABS.filter(l=>!l.soon).length;
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+function chip(key,label,n){
+  const b=document.createElement("button");b.type="button";b.className="chip";b.dataset.k=key;
+  b.innerHTML=`${label}<span class="n">${n}</span>`;b.setAttribute("aria-pressed",String(key===current));
+  b.onclick=()=>{current=key;try{localStorage.setItem("pwl-filter",key)}catch(e){};[...filters.children].forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.k===current)));render();};
+  return b;
+}
+filters.append(chip("all","All labs",LABS.length));
+Object.entries(CH).forEach(([k,v])=>filters.append(chip(k,v.short,LABS.filter(l=>l.ch===k).length)));
+
+function render(){
+  const term=q.value.trim().toLowerCase();
+  const match=l=>(current==="all"||l.ch===current)&&(!term||(l.title+" "+l.text+" "+l.law+" "+l.id).toLowerCase().includes(term));
+  bench.innerHTML="";
+  let any=false;
+  Object.entries(CH).forEach(([k,v])=>{
+    const items=LABS.filter(l=>l.ch===k&&match(l));
+    if(!items.length) return; any=true;
+    const sec=document.createElement("div");sec.className="chapter";
+    const live=items.filter(i=>!i.soon).length;
+    sec.innerHTML=`<div class="ch-title"><h3>${v.name}</h3><span>${live} live${items.length>live?` · ${items.length-live} coming`:""}</span></div><div class="grid"></div>`;
+    const g=sec.querySelector(".grid");
+    items.forEach(l=>{
+      const url=BASE+l.id+"/";
+      const c=document.createElement("article");c.className="card"+(l.soon?" soon":"");
+      c.innerHTML=`<div class="plate"><span class="status">${l.soon?"Coming soon":"Live"}</span>${l.plate}</div>
+        <div class="body"><h4>${l.title}</h4><div class="law">${l.law}</div><p>${l.text}</p>
+        <div class="actions">${l.soon
+          ?`<span class="btn open" aria-disabled="true">In the lab</span>`
+          :`<a class="btn open" href="${url}" target="_blank" rel="noopener">Open lab</a><button class="btn qrbtn" type="button">Show QR</button>`}</div></div>`;
+      const qb=c.querySelector(".qrbtn"); if(qb) qb.onclick=()=>openQR(l,url);
+      g.append(c);
+    });
+    bench.append(sec);
+  });
+  if(!any) bench.innerHTML=`<div class="empty">No lab matches “${term.replace(/[<>&]/g,"")}”. Try “field”, “coil” or “meter”.</div>`;
+}
+q.addEventListener("input",render);
+render();
+
+/* ---- QR dialog ---- */
+const scrim=document.getElementById("scrim"), qrEl=document.getElementById("qr");
+let lastFocus=null, qrObj=null;
+function openQR(l,url){
+  lastFocus=document.activeElement;
+  document.getElementById("qrTitle").textContent=l.title;
+  document.getElementById("qrUrl").textContent=url;
+  qrEl.innerHTML="";
+  if(window.QRCode){qrObj=new QRCode(qrEl,{text:url,width:440,height:440,colorDark:"#060a19",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});}
+  else qrEl.textContent="QR could not load. Use the link below.";
+  scrim.hidden=false; document.getElementById("qrClose").focus();
+}
+function closeQR(){scrim.hidden=true; if(lastFocus) lastFocus.focus();}
+document.getElementById("qrClose").onclick=closeQR;
+scrim.addEventListener("click",e=>{if(e.target===scrim)closeQR()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!scrim.hidden)closeQR()});
+document.getElementById("copyBtn").onclick=async e=>{
+  const t=document.getElementById("qrUrl").textContent, b=e.currentTarget;
+  try{await navigator.clipboard.writeText(t);b.textContent="Copied";}
+  catch(err){const r=document.createRange();r.selectNodeContents(document.getElementById("qrUrl"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected";}
+  setTimeout(()=>b.textContent="Copy",1600);
+};
+
+/* ---- hero: live field lines of a bar magnet (dipole), traced by drifting particles ---- */
+const cv=document.getElementById("field"), ctx=cv.getContext("2d");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W=0,H=0,dpr=1,mag={x:0,y:0,a:0},parts=[];
+function size(){
+  dpr=Math.min(devicePixelRatio||1,2);
+  const r=cv.getBoundingClientRect();W=r.width;H=r.height;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  const narrow=W<860;
+  mag={x:narrow?W*.72:W*.6,y:narrow?H*.22:H*.84,a:narrow?34:Math.min(70,W*.05)};
+  ctx.fillStyle="#060a19";ctx.fillRect(0,0,W,H);
+  parts=Array.from({length:narrow?110:220},()=>spawn(true));
+  if(reduce) staticLines();
+}
+function B(x,y){ // N pole at +a (right), S pole at -a
+  const nx=mag.x+mag.a, sx=mag.x-mag.a;
+  let dx=x-nx,dy=y-mag.y,r3=Math.pow(dx*dx+dy*dy,1.5)+1e-3;
+  let bx=dx/r3,by=dy/r3;
+  dx=x-sx;dy=y-mag.y;r3=Math.pow(dx*dx+dy*dy,1.5)+1e-3;
+  bx-=dx/r3;by-=dy/r3;
+  const m=Math.hypot(bx,by)||1;return [bx/m,by/m];
+}
+function spawn(anywhere){
+  if(anywhere&&Math.random()<.5) return {x:Math.random()*W,y:Math.random()*H,l:Math.random()*300};
+  const t=Math.random()*Math.PI*2, r=8+Math.random()*6;
+  return {x:mag.x+mag.a+Math.cos(t)*r,y:mag.y+Math.sin(t)*r,l:0};
+}
+function drawMagnet(){
+  const {x,y,a}=mag,h=Math.max(16,a*.42);
+  ctx.save();ctx.shadowColor="rgba(46,197,255,.35)";ctx.shadowBlur=24;
+  ctx.fillStyle="#2ec5ff";ctx.fillRect(x-a-h*.2,y-h/2,a+h*.2,h);
+  ctx.fillStyle="#ff4d3d";ctx.fillRect(x,y-h/2,a+h*.2,h);
+  ctx.restore();
+  ctx.fillStyle="#060a19";ctx.font=`700 ${Math.round(h*.6)}px Chakra Petch, sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText("S",x-a*.5,y+1);ctx.fillText("N",x+a*.5,y+1);
+}
+function step(){
+  ctx.fillStyle="rgba(6,10,25,.08)";ctx.fillRect(0,0,W,H);
+  ctx.lineWidth=1.3;
+  for(const p of parts){
+    const [bx,by]=B(p.x,p.y), nx=p.x+bx*1.8, ny=p.y+by*1.8;
+    const near=Math.hypot(p.x-mag.x,p.y-mag.y)/Math.max(W,H);
+    ctx.strokeStyle=p.l%97<3?"rgba(255,200,61,.9)":`rgba(46,197,255,${Math.max(.18,.75-near*1.4)})`;
+    ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(nx,ny);ctx.stroke();
+    p.x=nx;p.y=ny;p.l++;
+    const ds=Math.hypot(p.x-(mag.x-mag.a),p.y-mag.y);
+    if(ds<10||p.x<-20||p.x>W+20||p.y<-20||p.y>H+20||p.l>900) Object.assign(p,spawn(false));
+  }
+  drawMagnet();
+  requestAnimationFrame(step);
+}
+function staticLines(){
+  ctx.strokeStyle="rgba(46,197,255,.35)";ctx.lineWidth=1.2;
+  for(let i=0;i<28;i++){
+    const t=i/28*Math.PI*2;let x=mag.x+mag.a+Math.cos(t)*10,y=mag.y+Math.sin(t)*10;
+    ctx.beginPath();ctx.moveTo(x,y);
+    for(let k=0;k<1400;k++){const [bx,by]=B(x,y);x+=bx*2;y+=by*2;ctx.lineTo(x,y);if(Math.hypot(x-(mag.x-mag.a),y-mag.y)<10||x<-50||x>W+50||y<-50||y>H+50)break;}
+    ctx.stroke();
+  }
+  drawMagnet();
+}
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(size,150)});
+size(); if(!reduce) requestAnimationFrame(step);
+})();
+</script>
+
+</body>
+</html>
