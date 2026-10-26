@@ -1,5 +1,17 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>
+/* Powered by Webitoo — sits behind the 3D canvas, never over the model */
+.wb-powered{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:7px;padding:6px 12px 6px 9px;border-radius:999px;
+  background:rgba(6,10,25,.5);border:1px solid rgba(120,150,255,.18);color:#c3cdf0;font:500 12px/1 "IBM Plex Sans",system-ui,sans-serif;
+  letter-spacing:.2px;pointer-events:none;user-select:none;-webkit-user-select:none;white-space:nowrap}
+.wb-powered svg{width:24px;height:18px;flex:none}
+.wb-powered b{font-family:Poppins,"IBM Plex Sans",system-ui,sans-serif;font-weight:700;font-size:13px;color:#fff;letter-spacing:-.2px}
+.wb-powered b i{font-style:normal;color:#5b8cff}
+@media (max-width:899px){.wb-powered{left:auto;right:12px;bottom:auto;top:calc(env(safe-area-inset-top,0px) + 18px);font-size:11px;padding:5px 10px 5px 8px}.wb-powered svg{width:20px;height:15px}.wb-powered b{font-size:12px}}
+@media (min-width:900px){#app:has(#panel[hidden]) .wb-powered{bottom:calc(env(safe-area-inset-bottom,0px) + 80px)}}
+#app.arMode .wb-powered{top:calc(env(safe-area-inset-top,0px) + 12px);bottom:auto;left:12px;right:auto;opacity:.85}
+</style>
+</head><body>
 <title>Physics Way Force Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,7 +104,7 @@ button.mini{padding:3px 9px;font-size:12px;text-transform:none;letter-spacing:0;
 </style>
 
 <div id="app">
-  <div id="stage"><video id="cam" playsinline muted hidden></video><div id="mindbox" hidden></div></div>
+  <div id="stage"><video id="cam" playsinline muted hidden></video><div id="mindbox" hidden></div><div class="wb-powered"><svg viewBox="0 0 220 160" aria-hidden="true"><defs><linearGradient id="wbg" x1="18" y1="0" x2="202" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#17ABF6"/><stop offset=".5" stop-color="#3157FE"/><stop offset="1" stop-color="#7634F7"/></linearGradient></defs><path d="M70 130 L56 130 C32 130 18 114 18 98 C18 81 32 67 51 67 C55 41 79 22 108 22 C138 22 160 42 164 68 C187 70 202 86 202 104 C202 119 191 130 170 130 L156 130" fill="none" stroke="url(#wbg)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><path d="M80 80 L96 120 L112 92 L128 120 L144 80" fill="none" stroke="url(#wbg)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Powered by <b>webit<i>oo</i></b></span></div></div>
   <div id="loading">Preparing the lab…</div>
 
   <div class="hud">
