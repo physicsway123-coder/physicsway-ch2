@@ -320,6 +320,12 @@ const P = {
     <path d="M96 20V62M96 70V80M96 88V130" stroke="#e9eeff" stroke-width="5"/><g fill="none" stroke="#ff6a5c" stroke-width="1.6" opacity=".75">${[16,30,44,58].map(r=>`<path d="M${96+r*.5} ${66-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${66+r*.87}"/><path d="M${96+r*.5} ${84-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${84+r*.87}"/>`).join("")}</g>
     <rect x="200" y="18" width="14" height="114" rx="2" fill="#15161c" stroke="#98a5cc" stroke-width="1.5"/>${[-3,-2,-1,0,1,2,3].map(n=>`<rect x="201" y="${71+n*14}" width="12" height="8" rx="2" fill="#ff3b2f" opacity="${1-Math.abs(n)*.22}"/>`).join("")}
     <path d="M222 75h14" stroke="#ffc83d" stroke-width="3"/><text x="244" y="80" font-family="Chakra Petch, sans-serif" font-size="15" font-weight="700" fill="#ffc83d">0</text></svg>`,
+  lens: `<svg viewBox="0 0 260 150"><path d="M14 80H246" stroke="#98a5cc" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <path d="M50 80V48" stroke="#ffa23a" stroke-width="4"/><path d="M50 38l-8 13h16z" fill="#ffa23a"/>
+    <ellipse cx="130" cy="80" rx="9" ry="56" fill="rgba(200,230,255,.25)" stroke="#e9eeff" stroke-width="2"/>
+    <g stroke="#ffd23f" stroke-width="2" fill="none"><path d="M50 40H130L210 120"/><path d="M50 40L210 120"/><path d="M50 40L130 120H210"/></g>
+    <path d="M210 80V114" stroke="#ffa23a" stroke-width="4"/><path d="M210 124l-8 -13h16z" fill="#ffa23a"/>
+    ${[90,170].map(x=>`<circle cx="${x}" cy="80" r="4" fill="#2ec5ff"/>`).join("")}<text x="86" y="100" font-family="Chakra Petch, sans-serif" font-size="14" font-weight="700" fill="#2ec5ff">F</text><text x="166" y="100" font-family="Chakra Petch, sans-serif" font-size="14" font-weight="700" fill="#2ec5ff">F</text></svg>`,
   pend: `<svg viewBox="0 0 260 150"><path d="M70 20H190" stroke="#98a5cc" stroke-width="5" stroke-linecap="round"/>
     <path d="M110 22A60 60 0 0 0 80 74" fill="none" stroke="#22e07a" stroke-width="2" opacity=".5"/><path d="M110 22A70 70 0 0 0 110 122" fill="none" stroke="#ff4d3d" stroke-width="2" stroke-dasharray="3 5" opacity=".7"/>
     <path d="M110 22L80 100" stroke="#e9eeff" stroke-width="2"/><circle cx="80" cy="100" r="10" fill="#e0b56a"/>
@@ -368,7 +374,9 @@ const LABS = [
   {id:"mass-spring", ch:"osc", title:"The mass-spring oscillator", law:"T = 2π√(m/k)", plate:P.spring,
    text:"The same spring and mass, horizontal and vertical: change m and k, plot T² against m, and go to the Moon."},
   {id:"double-slit", ch:"osc", title:"Young's double-slit experiment", law:"Δy = λD / d", plate:P.slit,
-   text:"A laser through two slits: bright and dark fringes, the path difference, a ruler on the screen, and Δy = λD/d."}
+   text:"A laser through two slits: bright and dark fringes, the path difference, a ruler on the screen, and Δy = λD/d."},
+  {id:"convex-lens", ch:"osc", title:"Convex lens and image formation", law:"1/a + 1/b = 1/f", plate:P.lens,
+   text:"Drag a candle along the bench: the three principal rays, real and virtual images, the lens equation and a concave lens."}
 ];
 
 const bench = document.getElementById("bench");
