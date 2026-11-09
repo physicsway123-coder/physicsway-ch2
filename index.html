@@ -311,6 +311,11 @@ const P = {
     <path d="M60 120A70 70 0 0 1 200 120" fill="none" stroke="${accent}" stroke-width="2" stroke-dasharray="2 9"/>
     <line x1="130" y1="120" x2="${130+62*Math.cos(needle)}" y2="${120-62*Math.sin(needle)}" stroke="#ff4d3d" stroke-width="3.5" stroke-linecap="round"/>
     <circle cx="130" cy="120" r="7" fill="#e9eeff"/><text x="130" y="96" text-anchor="middle" font-family="Chakra Petch, sans-serif" font-size="26" font-weight="700" fill="${accent}">${label}</text></svg>`,
+  spring: `<svg viewBox="0 0 260 150"><path d="M30 118H150" stroke="#98a5cc" stroke-width="4" stroke-linecap="round"/><path d="M34 118V86" stroke="#98a5cc" stroke-width="5"/>
+    <path d="M36 102 ${[0,1,2,3,4,5,6].map(i=>`l6 -10 l6 20 l-2 -10`).join(" ")}" fill="none" stroke="#e9eeff" stroke-width="2"/><rect x="96" y="88" width="30" height="28" rx="3" fill="#1e5eff"/>
+    <path d="M131 102l18 0" stroke="#22e07a" stroke-width="3" transform="rotate(180 140 102)" marker-end="url(#asp)"/>
+    <path d="M190 18H240" stroke="#98a5cc" stroke-width="4" stroke-linecap="round"/><path d="M215 20 ${[0,1,2,3,4,5,6].map(i=>`l-10 6 l20 6 l-10 -6`).join(" ")}" fill="none" stroke="#e9eeff" stroke-width="2"/>
+    <rect x="201" y="64" width="28" height="26" rx="3" fill="#ffc83d"/><path d="M175 60H252" stroke="#22e07a" stroke-width="1.5" stroke-dasharray="4 4"/><defs>${mk("asp","#22e07a")}</defs></svg>`,
   pend: `<svg viewBox="0 0 260 150"><path d="M70 20H190" stroke="#98a5cc" stroke-width="5" stroke-linecap="round"/>
     <path d="M110 22A60 60 0 0 0 80 74" fill="none" stroke="#22e07a" stroke-width="2" opacity=".5"/><path d="M110 22A70 70 0 0 0 110 122" fill="none" stroke="#ff4d3d" stroke-width="2" stroke-dasharray="3 5" opacity=".7"/>
     <path d="M110 22L80 100" stroke="#e9eeff" stroke-width="2"/><circle cx="80" cy="100" r="10" fill="#e0b56a"/>
@@ -355,7 +360,9 @@ const LABS = [
   {id:"ohmmeter", ch:"dev", title:"Galvanometer → Ohmmeter", law:"I = V_B / (R_total + Rₓ)", plate:P.meter(2.4,"Ω","#ffc83d"),
    text:"A battery, a variable resistor and a reversed scale. Zero the meter, then measure an unknown resistance."},
   {id:"simple-pendulum", ch:"osc", title:"The simple pendulum", law:"T = 2π√(L/g)", plate:P.pend,
-   text:"Two pendulums side by side: change the mass, the length, the angle and the planet, and time 10 oscillations."}
+   text:"Two pendulums side by side: change the mass, the length, the angle and the planet, and time 10 oscillations."},
+  {id:"mass-spring", ch:"osc", title:"The mass-spring oscillator", law:"T = 2π√(m/k)", plate:P.spring,
+   text:"The same spring and mass, horizontal and vertical: change m and k, plot T² against m, and go to the Moon."}
 ];
 
 const bench = document.getElementById("bench");
