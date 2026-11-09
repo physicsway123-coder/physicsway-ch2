@@ -316,6 +316,10 @@ const P = {
     <path d="M131 102l18 0" stroke="#22e07a" stroke-width="3" transform="rotate(180 140 102)" marker-end="url(#asp)"/>
     <path d="M190 18H240" stroke="#98a5cc" stroke-width="4" stroke-linecap="round"/><path d="M215 20 ${[0,1,2,3,4,5,6].map(i=>`l-10 6 l20 6 l-10 -6`).join(" ")}" fill="none" stroke="#e9eeff" stroke-width="2"/>
     <rect x="201" y="64" width="28" height="26" rx="3" fill="#ffc83d"/><path d="M175 60H252" stroke="#22e07a" stroke-width="1.5" stroke-dasharray="4 4"/><defs>${mk("asp","#22e07a")}</defs></svg>`,
+  slit: `<svg viewBox="0 0 260 150"><circle cx="26" cy="75" r="9" fill="#ff3b2f"/><path d="M35 75H92" stroke="#ff3b2f" stroke-width="4" opacity=".8"/>
+    <path d="M96 20V62M96 70V80M96 88V130" stroke="#e9eeff" stroke-width="5"/><g fill="none" stroke="#ff6a5c" stroke-width="1.6" opacity=".75">${[16,30,44,58].map(r=>`<path d="M${96+r*.5} ${66-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${66+r*.87}"/><path d="M${96+r*.5} ${84-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${84+r*.87}"/>`).join("")}</g>
+    <rect x="200" y="18" width="14" height="114" rx="2" fill="#15161c" stroke="#98a5cc" stroke-width="1.5"/>${[-3,-2,-1,0,1,2,3].map(n=>`<rect x="201" y="${71+n*14}" width="12" height="8" rx="2" fill="#ff3b2f" opacity="${1-Math.abs(n)*.22}"/>`).join("")}
+    <path d="M222 75h14" stroke="#ffc83d" stroke-width="3"/><text x="244" y="80" font-family="Chakra Petch, sans-serif" font-size="15" font-weight="700" fill="#ffc83d">0</text></svg>`,
   pend: `<svg viewBox="0 0 260 150"><path d="M70 20H190" stroke="#98a5cc" stroke-width="5" stroke-linecap="round"/>
     <path d="M110 22A60 60 0 0 0 80 74" fill="none" stroke="#22e07a" stroke-width="2" opacity=".5"/><path d="M110 22A70 70 0 0 0 110 122" fill="none" stroke="#ff4d3d" stroke-width="2" stroke-dasharray="3 5" opacity=".7"/>
     <path d="M110 22L80 100" stroke="#e9eeff" stroke-width="2"/><circle cx="80" cy="100" r="10" fill="#e0b56a"/>
@@ -362,7 +366,9 @@ const LABS = [
   {id:"simple-pendulum", ch:"osc", title:"The simple pendulum", law:"T = 2π√(L/g)", plate:P.pend,
    text:"Two pendulums side by side: change the mass, the length, the angle and the planet, and time 10 oscillations."},
   {id:"mass-spring", ch:"osc", title:"The mass-spring oscillator", law:"T = 2π√(m/k)", plate:P.spring,
-   text:"The same spring and mass, horizontal and vertical: change m and k, plot T² against m, and go to the Moon."}
+   text:"The same spring and mass, horizontal and vertical: change m and k, plot T² against m, and go to the Moon."},
+  {id:"double-slit", ch:"osc", title:"Young's double-slit experiment", law:"Δy = λD / d", plate:P.slit,
+   text:"A laser through two slits: bright and dark fringes, the path difference, a ruler on the screen, and Δy = λD/d."}
 ];
 
 const bench = document.getElementById("bench");
