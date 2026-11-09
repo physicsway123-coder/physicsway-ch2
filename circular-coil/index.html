@@ -1105,4 +1105,47 @@ readout();
 window.__pw = { S, physics, showStep, endIntro, setView, camera, controls, compasses, tt, world, get step(){ return step; }, get markerOn(){ return markerOn; }, get held(){ return held; } };
 </script>
 
+<!-- pw-wbfollow-v1: Instagram follow pop-up for Webitoo (Physics Way version; the lab already has its own Powered by Webitoo mark) -->
+<style>
+#wbPopBg{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,20,.55)}
+#wbPopBg.on{display:flex;animation:wbIn .35s ease}
+#wbPop{position:relative;width:min(340px,100%);padding:22px 20px 18px;border-radius:20px;text-align:center;background:rgba(11,17,40,.96);border:1.5px solid #ffc83d;box-shadow:0 0 0 4px rgba(30,94,255,.25),0 20px 60px rgba(0,0,0,.55);color:#e9eeff;font-family:'IBM Plex Sans',system-ui,sans-serif}
+#wbPop .wbw{font:800 30px/1.1 Poppins,system-ui,sans-serif;background:linear-gradient(90deg,#00A5FE,#2B5AFF 55%,#812FFE);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:8px}
+#wbPop h3{margin:0 0 4px;font:700 20px/1.2 'Chakra Petch',system-ui,sans-serif;color:#ffc83d}
+#wbPop p{margin:0 0 16px;font-size:13.5px;line-height:1.5;color:#98a5cc}
+#wbPop a.go{display:block;padding:12px;border-radius:999px;background:linear-gradient(90deg,#00A5FE,#2B5AFF 55%,#812FFE);color:#fff;font-weight:700;font-size:15px;text-decoration:none}
+#wbPop button{margin-top:10px;background:none;border:0;color:#8f9bc9;font:500 13px Poppins,system-ui,sans-serif;cursor:pointer;padding:6px 10px}
+#wbPop .x{position:absolute;top:8px;right:10px;margin:0;font-size:20px;line-height:1}
+@keyframes wbIn{from{opacity:0}to{opacity:1}}
+</style>
+<div id="wbPopBg" role="dialog" aria-modal="true" aria-labelledby="wbPopT">
+  <div id="wbPop">
+    <button class="x" type="button" aria-label="Close">×</button>
+    <div class="wbw">webitoo</div>
+    <h3 id="wbPopT">Powered by Webitoo</h3>
+    <p>Enjoying this lab? Follow us on Instagram for new AR labs.</p>
+    <a class="go" href="https://www.instagram.com/_webitoo_/" target="_blank" rel="noopener">Follow @_webitoo_</a>
+    <button class="later" type="button">Maybe later</button>
+  </div>
+</div>
+<script>
+(function(){
+  var bg=document.getElementById('wbPopBg'); if(!bg) return;
+  function seen(){ try{ return sessionStorage.getItem('pwwbFollowSeen')==='1'; }catch(e){ return false; } }
+  function mark(){ try{ sessionStorage.setItem('pwwbFollowSeen','1'); }catch(e){} }
+  function close(){ bg.classList.remove('on'); mark(); }
+  bg.addEventListener('click',function(e){ if(e.target===bg) close(); });
+  bg.querySelector('.x').addEventListener('click',close);
+  bg.querySelector('.later').addEventListener('click',close);
+  bg.querySelector('a.go').addEventListener('click',function(){ setTimeout(close,300); });
+  function inAR(){
+    if(document.fullscreenElement||document.webkitFullscreenElement) return true;
+    var v=document.querySelectorAll('video'); for(var i=0;i<v.length;i++){ var r=v[i].getBoundingClientRect(); if(r.width>200&&r.height>200&&getComputedStyle(v[i]).display!=='none') return true; }
+    return false;
+  }
+  if(seen()) return;
+  setTimeout(function(){ if(!inAR()&&!seen()) bg.classList.add('on'); else mark(); },4500);
+})();
+</script>
+
 </body></html>
