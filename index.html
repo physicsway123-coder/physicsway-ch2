@@ -311,6 +311,11 @@ const P = {
     <path d="M60 120A70 70 0 0 1 200 120" fill="none" stroke="${accent}" stroke-width="2" stroke-dasharray="2 9"/>
     <line x1="130" y1="120" x2="${130+62*Math.cos(needle)}" y2="${120-62*Math.sin(needle)}" stroke="#ff4d3d" stroke-width="3.5" stroke-linecap="round"/>
     <circle cx="130" cy="120" r="7" fill="#e9eeff"/><text x="130" y="96" text-anchor="middle" font-family="Chakra Petch, sans-serif" font-size="26" font-weight="700" fill="${accent}">${label}</text></svg>`,
+  pend: `<svg viewBox="0 0 260 150"><path d="M70 20H190" stroke="#98a5cc" stroke-width="5" stroke-linecap="round"/>
+    <path d="M110 22A60 60 0 0 0 80 74" fill="none" stroke="#22e07a" stroke-width="2" opacity=".5"/><path d="M110 22A70 70 0 0 0 110 122" fill="none" stroke="#ff4d3d" stroke-width="2" stroke-dasharray="3 5" opacity=".7"/>
+    <path d="M110 22L80 100" stroke="#e9eeff" stroke-width="2"/><circle cx="80" cy="100" r="10" fill="#e0b56a"/>
+    <path d="M150 22L170 112" stroke="#e9eeff" stroke-width="2"/><circle cx="170" cy="112" r="13" fill="#c9a048"/>
+    <path d="M110 22V108" stroke="#e9eeff" stroke-width="1" stroke-dasharray="3 4" opacity=".6"/><path d="M74 104l-18 6" stroke="#22e07a" stroke-width="3" marker-end="url(#ap)"/><defs>${mk("ap","#22e07a")}</defs></svg>`,
   flux: `<svg viewBox="0 0 260 150"><path d="M85 40l90 0 -10 70 -90 0z" fill="rgba(255,200,61,.12)" stroke="#ffc83d" stroke-width="2"/>
     <g stroke="#2ec5ff" stroke-width="1.6">${[95,115,135,155].map(x=>`<path d="M${x} 20V130" marker-end="url(#ax)"/>`).join("")}</g><defs>${mk("ax","#2ec5ff")}</defs></svg>`,
   torque: `<svg viewBox="0 0 260 150"><rect x="90" y="35" width="80" height="80" fill="none" stroke="#c8913a" stroke-width="5" transform="skewY(-8) translate(0 18)"/>
@@ -322,7 +327,8 @@ function mk(id, c){return `<marker id="${id}" viewBox="0 0 10 10" refX="8" refY=
 const CH = {
   mag: {name:"Magnetic field of electric current", short:"Magnetism"},
   circ:{name:"Electric circuits", short:"Circuits"},
-  dev: {name:"Measuring devices", short:"Meters"}
+  dev: {name:"Measuring devices", short:"Meters"},
+  osc: {name:"Oscillations and waves", short:"Waves"}
 };
 
 const LABS = [
@@ -347,7 +353,9 @@ const LABS = [
   {id:"voltmeter", ch:"dev", title:"Galvanometer → Voltmeter", law:"R_m = V / I_g − R_g", plate:P.meter(1.75,"V","#22e07a"),
    text:"Add a large multiplier in series and connect it across the lamp. Pick the range that keeps the pointer on scale."},
   {id:"ohmmeter", ch:"dev", title:"Galvanometer → Ohmmeter", law:"I = V_B / (R_total + Rₓ)", plate:P.meter(2.4,"Ω","#ffc83d"),
-   text:"A battery, a variable resistor and a reversed scale. Zero the meter, then measure an unknown resistance."}
+   text:"A battery, a variable resistor and a reversed scale. Zero the meter, then measure an unknown resistance."},
+  {id:"simple-pendulum", ch:"osc", title:"The simple pendulum", law:"T = 2π√(L/g)", plate:P.pend,
+   text:"Two pendulums side by side: change the mass, the length, the angle and the planet, and time 10 oscillations."}
 ];
 
 const bench = document.getElementById("bench");
