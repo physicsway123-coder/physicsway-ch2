@@ -320,6 +320,7 @@ const P = {
     <path d="M96 20V62M96 70V80M96 88V130" stroke="#e9eeff" stroke-width="5"/><g fill="none" stroke="#ff6a5c" stroke-width="1.6" opacity=".75">${[16,30,44,58].map(r=>`<path d="M${96+r*.5} ${66-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${66+r*.87}"/><path d="M${96+r*.5} ${84-r*.87}A${r} ${r} 0 0 1 ${96+r*.5} ${84+r*.87}"/>`).join("")}</g>
     <rect x="200" y="18" width="14" height="114" rx="2" fill="#15161c" stroke="#98a5cc" stroke-width="1.5"/>${[-3,-2,-1,0,1,2,3].map(n=>`<rect x="201" y="${71+n*14}" width="12" height="8" rx="2" fill="#ff3b2f" opacity="${1-Math.abs(n)*.22}"/>`).join("")}
     <path d="M222 75h14" stroke="#ffc83d" stroke-width="3"/><text x="244" y="80" font-family="Chakra Petch, sans-serif" font-size="15" font-weight="700" fill="#ffc83d">0</text></svg>`,
+  tir: `<svg viewBox="0 0 260 150"><rect x="20" y="70" width="220" height="66" rx="8" fill="rgba(58,160,255,.22)"/><path d="M20 70H240" stroke="#9fd8ff" stroke-width="2"/><path d="M130 22V124" stroke="#98a5cc" stroke-width="1.5" stroke-dasharray="5 4"/><path d="M52 132L130 70L208 132" stroke="#ffd23f" stroke-width="4" fill="none" stroke-linejoin="round"/><path d="M130 70H232" stroke="#ffd23f" stroke-width="2" opacity=".45"/><circle cx="130" cy="70" r="6" fill="#fff3c4"/></svg>`,
   lens: `<svg viewBox="0 0 260 150"><path d="M14 80H246" stroke="#98a5cc" stroke-width="1.5" stroke-dasharray="5 4"/>
     <path d="M50 80V48" stroke="#ffa23a" stroke-width="4"/><path d="M50 38l-8 13h16z" fill="#ffa23a"/>
     <ellipse cx="130" cy="80" rx="9" ry="56" fill="rgba(200,230,255,.25)" stroke="#e9eeff" stroke-width="2"/>
@@ -376,7 +377,9 @@ const LABS = [
   {id:"double-slit", ch:"osc", title:"Young's double-slit experiment", law:"Δy = λD / d", plate:P.slit,
    text:"A laser through two slits: bright and dark fringes, the path difference, a ruler on the screen, and Δy = λD/d."},
   {id:"convex-lens", ch:"osc", title:"Convex lens and image formation", law:"1/a + 1/b = 1/f", plate:P.lens,
-   text:"Drag a candle along the bench: the three principal rays, real and virtual images, the lens equation and a concave lens."}
+   text:"Drag a candle along the bench: the three principal rays, real and virtual images, the lens equation and a concave lens."},
+  {id:"total-internal-reflection", ch:"osc", title:"Total internal reflection and the optical fibre", law:"sin θc = n₂ / n₁", plate:P.tir,
+   text:"A phone flashlight under water: the critical angle, total internal reflection, glass and diamond, and light zig-zagging in an optical fibre."}
 ];
 
 const bench = document.getElementById("bench");
